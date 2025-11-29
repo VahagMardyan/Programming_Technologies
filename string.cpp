@@ -32,6 +32,7 @@ class String {
                 enable_heap((newsize + 1) * 2);
             }
         }
+
     public:
         
         String() : size_(0), capacity_(SSO_CAP), heap(false), data_(nullptr) {
@@ -253,24 +254,46 @@ class String {
             data_ = nullptr;
         }
 
+        void input(size_t n) {
+            size_t oldsize = size_;
+            size_ = n;
+
+            if(size_ > SSO_CAP) {
+                if(!heap || capacity_ < size_ + 1) {
+                    enable_heap(size_ + 1);
+                }
+            }
+
+            std::cout<<"Input String: "<<std::endl;
+            for(int i=0;i<size_;++i) {
+                std::cin>>data()[i];
+            }
+            data()[size_] = '\0';
+        }
+
         void print() const {
             std::cout<<data()<<std::endl;
         }
 };
 
 int main() {
+    String abc;
+    abc.input(26);
+    abc.reverse();
+    abc.print();
+    
     String x = "Hello World, I am Vahag";// true
     x.append(" !!!");
     size_t s = x.size();
     x+='A';
     x+="BCD";
-    x.print();
     x.erase(2,5);
     x.print();
     x = "ABCD";
     x.print();
     x.reverse();
-    // x.clear();
+    x.clear();
     x.print();
     return 0;
 }
+
