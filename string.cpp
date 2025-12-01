@@ -129,6 +129,15 @@ class String {
             return *this;
         }
 
+        bool operator==(const String& other) const {
+            if (size_ != other.size_) return false;
+            return std::memcmp(data(), other.data(), size_) == 0;
+        }
+
+        bool operator !=(const String& other) const {
+            return !( *this == other );
+        }
+
         bool empty() {
             return size_ == 0;
         }
@@ -281,15 +290,20 @@ int main() {
     abc.input(26);
     abc.reverse();
     abc.print();
-    
-    String x = "Hello World, I am Vahag";// true
+
+    String x = "Hello World, I am Vahag";
     x.append(" !!!");
     size_t s = x.size();
     x+='A';
     x+="BCD";
     x.erase(2,5);
     x.print();
-    x = "ABCD";
+    x = "ABCDQ";
+    String y = "ABCDW";
+    bool equal = (x == y);
+    bool inequal = (x != y);
+    std::cout<< "x==y ? " <<equal<<std::endl; // 0
+    std::cout<<"x != y ? " <<inequal<<std::endl; // 1
     x.print();
     x.reverse();
     x.clear();
