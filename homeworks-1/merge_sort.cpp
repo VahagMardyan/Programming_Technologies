@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
+#include "mergesort.h"
 
-void merge(std::vector<int>& arr, int left, int mid, int right) {
+void merge(std::vector<int>& arr, int left, int mid, int right, bool (*func)(int, int)) {
     int l = mid - left + 1;
     int r = right - mid;
     
@@ -19,7 +20,7 @@ void merge(std::vector<int>& arr, int left, int mid, int right) {
     int j = 0;
     int k = left;
     while(i < l && j < r) {
-        if(L[i] <= R[j]) {
+        if(func(L[i], R[j])) {
             arr[k] = L[i];
             i++;
         } else {
@@ -40,23 +41,27 @@ void merge(std::vector<int>& arr, int left, int mid, int right) {
     }
 }
 
-void merge_sort(std::vector<int>& arr, int start, int end) {
+void merge_sort(std::vector<int>& arr, int start, int end, bool (*func)(int, int)) {
     if(start >= end) {
         return;
     }   
     int mid = (start + end) / 2;
-    merge_sort(arr,start,mid);
-    merge_sort(arr, mid+1, end);
-    merge(arr, start, mid, end);
+    merge_sort(arr,start,mid, func);
+    merge_sort(arr, mid+1, end, func);
+    merge(arr, start, mid, end, func);
 }
 
-int main() {
-    std::vector<int>x = {1,2,3,8,9};
-    int n = x.size();
-    merge_sort(x, 0, n-1);
-    for(size_t i=0;i<n;i++) {
-        std::cout<<x[i]<<" ";
-    }
-    std::cout<<'\n';
-    return 0;
+bool foo(int a, int b) {
+    return a > b; // descending sort
 }
+
+// int main() {
+//     std::vector<int>x = {1,2,3,8,9};
+//     int n = x.size();
+//     merge_sort(x, 0, n-1, foo);
+//     for(size_t i=0;i<n;i++) {
+//         std::cout<<x[i]<<" ";
+//     }
+//     std::cout<<'\n';
+//     return 0;
+// }
