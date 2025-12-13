@@ -3,27 +3,9 @@
 #include <set>
 #include <list>
 #include <algorithm>
+#include <string>
 #include "../homeworks-1/mergesort.h"
-
-class Base {
-    public:
-        Base() {}
-        virtual ~Base() {}
-        virtual void foo(int t=20) {
-            std::cout<<t<<std::endl;
-        }
-};
-
-class D : public Base {
-    public:
-        virtual void foo(int t=100) {
-            std::cout<<t<<std::endl;
-        }
-};
-
-// class Person {
-
-// };
+#include "printers.h"
 
 /* 
 Գրել std::sort-ի համար ֆունկցիա որը կսորտավորի սենց
@@ -43,46 +25,28 @@ bool func(int a, int b) {
 
 // // STL -> Standart Template Library
 int main() {
-    // Base *obj = new D();
-    // obj -> foo(); // 20, even when default value of t for D is 100.
-    
-    // D *ptr = new D();
-    // ptr->foo(); // 100
-    
-    // // using cast, but this is unsafe
-    // Base *b = new D();
-    // ((D*)b)->foo(); // 100
-
-    // Base* base = new Base();
-    // base->foo(); // 20
-
-    // std::vector<Person> v;
     std::vector<int> v2 {10, 2, 7, 6, 26, 34, 45, 72, 63};
     std::set<int> s2 {10, 2, 7, 9};
-    std::list<int> l2 {10, 2, 7, 9};
+    std::list<int> l2 {10, 2, 7, 898};
 
-    // for (auto& i : v2) {
-    //     std::cout<< i <<" "; // 10 2 7 9
-    // } 
-    // std::cout<<std::endl;
+    print_list(l2);
 
-    // s2.insert(-5);
-    // for (auto& i : s2) {
-    //     std::cout<< i <<" "; // -5 2 7 9 10
-    // }
-    // std::cout<<std::endl;
+    s2.insert(-5);
 
+    print_set(s2);
     
-    // std::sort(v2.begin() , v2.begin() + v2.size()/2); // half-sort
-    
-    // std::sort(v2.rbegin() , v2.rend()); // descending sort
-    
-    // std::sort(v2.begin(), v2.end(), func); // full-sort
-    merge_sort(v2, 0, v2.size() - 1, func); // merge sort by func logic
-    for (auto& i : v2) {
-        std::cout<< i <<" ";
-    }
-    std::cout<<std::endl;
+    std::sort(v2.begin() , v2.begin() + v2.size()/2); // half-sort
+    print_vector(v2, "Half sorted v2:");
 
+    std::sort(v2.rbegin() , v2.rend()); // reverse-sort
+    print_vector(v2, "Reverse sorted v2:");
+    
+    std::sort(v2.begin(), v2.end(), func); // full-sort
+    print_vector(v2, "Sorted v2 by function logic: Evens by descending order, Odds by ascending order");
+
+    merge_sort(v2, 0, v2.size()-1, [](int a, int b){
+        return a > b;
+    }); // lambda function
+    print_vector(v2, "Descending merge sort:");
     return 0;
 }
