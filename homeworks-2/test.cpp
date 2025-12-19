@@ -13,7 +13,9 @@
 2․ Զանգվածի մյուս կեսը կենտերը՝ փոքրից մեծ
 */
 
+int cnt = 0; // shows the amount of std::sort comparisons.
 bool func(int a, int b) {
+    cnt++;
     if( ( a >=0 && a % 2 == 0) && ( b >=0 && b % 2 == 0)) {
         return a > b;
     }
@@ -44,9 +46,13 @@ int main() {
     std::sort(v2.begin(), v2.end(), func); // full-sort
     print_vector(v2, "Sorted v2 by function logic: Evens by descending order, Odds by ascending order");
 
-    merge_sort(v2, 0, v2.size()-1, [](int a, int b){
+    int m_cnt = 0;
+    merge_sort(v2, 0, v2.size()-1, [&m_cnt](int a, int b){
+        m_cnt++; // shows the amount of merge sort comparisons.
         return a > b;
     }); // lambda function
     print_vector(v2, "Descending merge sort:");
+    std::cout<<"m_cnt: "<<m_cnt<<std::endl;// 19
+    std::cout<<"Count: "<<cnt<<std::endl; // 31
     return 0;
 }
